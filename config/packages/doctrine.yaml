@@ -1,13 +1,15 @@
 doctrine:
     dbal:
+        dbname:               symfony
+        host:                 localhost
+        port:                 3306
+        user:                 root
+        password:             
         driver: 'pdo_mysql'
         server_version: '5.7'
-        charset: utf8mb4
-        default_table_options:
-            charset: utf8mb4
-            collate: utf8mb4_unicode_ci
+        charset: UTF8
 
-        url: '%env(resolve:DATABASE_URL)%'
+        url:          mysql://root:@127.0.0.1:3306/symfony
         driver_class: App\DBAL\Driver\PDOMySql\Driver
 
         # IMPORTANT: You MUST configure your server version,
@@ -24,30 +26,3 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'App\Entity'
                 alias: App
-
-        # dbname:               database
-        # host:                 localhost
-        # port:                 1234
-        # user:                 user
-        # password:             secret
-        # driver:               pdo_mysql
-        # # if the url option is specified, it will override the above config
-        # url:                  mysql://db_user:db_password@127.0.0.1:3306/db_name
-        # # the DBAL driverClass option
-        # driver_class:         App\DBAL\MyDatabaseDriver
-        # # the DBAL driverOptions option
-        # options:
-        #     foo: bar
-        # path:                 '%kernel.project_dir%/var/data/data.sqlite'
-        # memory:               true
-        # unix_socket:          /tmp/mysql.sock
-        # # the DBAL wrapperClass option
-        # wrapper_class:        App\DBAL\MyConnectionWrapper
-        # charset:              UTF8
-        # logging:              '%kernel.debug%'
-        # platform_service:     App\DBAL\MyDatabasePlatformService
-        # server_version:       '5.6'
-        # mapping_types:
-        #     enum: string
-        # types:
-        #     custom: App\DBAL\MyCustomType

@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Categories{% endblock %}
+
+{% block body %}
+<style>
+    .table { width: 400px;margin: 0 auto; font-size: 18px; text-align: left; }
+</style>
+
+<table class="table">
+    <thead>
+      <th>Id</th>
+      <th>Title</th>
+    </thead>
+
+	{% for categories in categories %}
+		    <tbody>
+		      	<tr>
+                    <td> {{ categories.id }} </td>
+                    <td> {{ categories.title }} </td>
+                </tr>
+		    </tbody>
+        
+	{% endfor %}
+</table>
+
+{% endblock %}

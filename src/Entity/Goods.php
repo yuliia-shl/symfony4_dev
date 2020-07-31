@@ -18,7 +18,7 @@ class Goods
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string", length=255)
      */
     private $title;
 
@@ -28,14 +28,15 @@ class Goods
     private $description;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string", length=255)
      */
     private $price;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity=Categories::class, inversedBy="goods")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $cat_id;
+    private $category;
 
     public function getId(): ?int
     {
@@ -78,14 +79,14 @@ class Goods
         return $this;
     }
 
-    public function getCatId(): ?int
+    public function getCategory(): ?Categories
     {
-        return $this->cat_id;
+        return $this->category;
     }
 
-    public function setCatId(int $cat_id): self
+    public function setCategory(?Categories $category): self
     {
-        $this->cat_id = $cat_id;
+        $this->category = $category;
 
         return $this;
     }

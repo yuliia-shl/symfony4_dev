@@ -2,10 +2,18 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}Full list{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
+        <style>
+		    .navbar { text-align: center; font-size: 24px; background-color: #e2e0e0; padding: 10px 0; }
+		    
+		</style>
     </head>
     <body>
+    	<nav class="navbar">
+		  <b>Full list</b>
+		</nav>
+
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
     </body>
