@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
 use App\Entity\Categories;
+use App\Entity\Goods;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -21,6 +22,38 @@ class CategoriesController extends AbstractController
 
         return $this->render('categories/index.html.twig', [
             'categories' => $categories
+        ]);
+    }
+
+
+     /**
+     * @Route("/categories/{id}", name="categories_item")
+     */
+    public function show($id)
+    {
+        $categories = $this->getDoctrine()
+            ->getRepository(Categories::class)
+            ->find($id);
+
+        // $repository = $this->getDoctrine()->getRepository(Goods::class);
+        // $goods = $repository->findAll();
+
+        if (!$categories) {
+            throw $this->createNotFoundException(
+                'No categories found for id '.$id
+            );
+        }
+
+        // $goods = $this->getDoctrine()
+        //     ->getRepository(Goods::class)
+        //     ->findBy($category);
+
+        $repository = $this->getDoctrine()->getRepository(Goods::class);
+        $goods = $repository->findBy(['category' => $id]);
+
+        return $this->render('categories/show.html.twig', [
+            'categories' => $categories,
+            'goods' => $goods
         ]);
     }
 

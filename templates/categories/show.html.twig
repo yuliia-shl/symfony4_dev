@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Categories{% endblock %}
+
+{% block body %}
+<style>
+    .table { width: 800px;margin: 0 auto; font-size: 18px; text-align: left; }
+    .h1 { text-align: center; }
+</style>
+
+<h1 class="h1">All goods in category {{ categories.title }} </h1>
+
+<table class="table">
+    <thead>
+      <th>Goods Id</th>
+      <th>Goods Title</th>
+      <th>Description</th>
+      <th>Price</th>
+
+    </thead>
+    {% for good in goods %}
+  	  <tbody>
+  		      	<tr>
+                  <td> {{ good.id }} </td>
+                  <td> {{ good.title }} </td>
+                  <td> {{ good.description }} </td>
+                  <td> {{ good.price }} </td>
+              </tr>
+  		</tbody>
+    {% endfor %}
+</table>
+
+{% endblock %}

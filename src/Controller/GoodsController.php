@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 class GoodsController extends AbstractController
 {
     /**
-     * @Route("/goods", name="show_goods")
+     * @Route("/goods", name="goods_list")
      */
     public function index()
     {
@@ -28,6 +28,27 @@ class GoodsController extends AbstractController
             'goods' => $goods
         ]);
 		
+    }
+
+    /**
+     * @Route("/goods/{id}", name="goods_item")
+     */
+    public function show($id)
+    {
+        $goods = $this->getDoctrine()
+            ->getRepository(Goods::class)
+            ->find($id);
+
+        if (!$goods) {
+            throw $this->createNotFoundException(
+                'No goods found for id '.$id
+            );
+        }
+
+        // return new Response('Check out this great product: '.$goods->getTitle());
+         return $this->render('goods/show.html.twig', [
+            'goods' => $goods
+        ]);
     }
 
     // public function createGoods(): Response

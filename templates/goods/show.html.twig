@@ -17,18 +17,17 @@
       <th>Category</th>
     </thead>
 
-	{% for goods in goods %}
+	
 	    <tbody>
 	      	<tr>
                 <td> {{ goods.id }} </td>
-                <td> 
-                  <a href="{{ path('goods_item', {id: goods.id}) }}"> {{ goods.title }}</a>
+                <td> {{ goods.title }} </td>
                 <td> {{ goods.description }} </td>
                 <td> $ {{ goods.price }} </td>
                 <td> {{ goods.category.title }} </td>
             </tr>
 	    </tbody>
-	{% endfor %}
+	
 
 </table>
 
