@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\GoodsRepository;
+use App\Repository\OrdersRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=GoodsRepository::class)
+ * @ORM\Entity(repositoryClass=OrdersRepository::class)
  */
-class Goods
+class Orders
 {
     /**
      * @ORM\Id()
@@ -20,28 +20,28 @@ class Goods
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $title;
-
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $description;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $price;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Categories::class, inversedBy="goods")
+     * @ORM\ManyToOne(targetEntity=Users::class, inversedBy="orders")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $category;
+    private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity=OrdersGoods::class, mappedBy="goods")
+     * @ORM\Column(type="integer")
+     */
+    private $order_number;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $address;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $date;
+
+    /**
+     * @ORM\OneToMany(targetEntity=OrdersGoods::class, mappedBy="order_number")
      */
     private $ordersGoods;
 
@@ -55,50 +55,50 @@ class Goods
         return $this->id;
     }
 
-    public function getTitle(): ?string
+    public function getUser(): ?Users
     {
-        return $this->title;
+        return $this->user;
     }
 
-    public function setTitle(string $title): self
+    public function setUser(?Users $user): self
     {
-        $this->title = $title;
+        $this->user = $user;
 
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function getOrderNumber(): ?int
     {
-        return $this->description;
+        return $this->order_number;
     }
 
-    public function setDescription(?string $description): self
+    public function setOrderNumber(int $order_number): self
     {
-        $this->description = $description;
+        $this->order_number = $order_number;
 
         return $this;
     }
 
-    public function getPrice(): ?string
+    public function getAddress(): ?string
     {
-        return $this->price;
+        return $this->address;
     }
 
-    public function setPrice(string $price): self
+    public function setAddress(string $address): self
     {
-        $this->price = $price;
+        $this->address = $address;
 
         return $this;
     }
 
-    public function getCategory(): ?Categories
+    public function getDate(): ?\DateTimeInterface
     {
-        return $this->category;
+        return $this->date;
     }
 
-    public function setCategory(?Categories $category): self
+    public function setDate(\DateTimeInterface $date): self
     {
-        $this->category = $category;
+        $this->date = $date;
 
         return $this;
     }
@@ -115,7 +115,7 @@ class Goods
     {
         if (!$this->ordersGoods->contains($ordersGood)) {
             $this->ordersGoods[] = $ordersGood;
-            $ordersGood->setGoods($this);
+            $ordersGood->setOrderId($this);
         }
 
         return $this;
@@ -126,8 +126,8 @@ class Goods
         if ($this->ordersGoods->contains($ordersGood)) {
             $this->ordersGoods->removeElement($ordersGood);
             // set the owning side to null (unless already changed)
-            if ($ordersGood->getGoods() === $this) {
-                $ordersGood->setGoods(null);
+            if ($ordersGood->getOrderId() === $this) {
+                $ordersGood->setOrderId(null);
             }
         }
 
