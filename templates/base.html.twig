@@ -5,13 +5,21 @@
         <title>{% block title %}Full list{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
         <style>
-		    .navbar { text-align: center; font-size: 24px; background-color: #e2e0e0; padding: 10px 0; }
+		    .navbar { text-align: center; font-size: 24px; background-color: #e2e0e0; padding: 10px 0;     display: block; text-decoration: none;}
+            .navbar a { text-decoration: none; padding: 0 5px;}
 		    
 		</style>
     </head>
     <body>
     	<nav class="navbar">
-		  <b>Full list</b>
+            <div> <b>Navbar</b>
+                <a href="{{ path('goods_list') }}">Goods</a>
+                <a href="{{ path('goods_new') }}">(New)</a>
+                <a href="{{ path('categories_show') }}">Categories</a>
+                <a href="{{ path('new_categories') }}">(New)</a>
+                <a href="{{ path('create_users') }}">Users</a>
+                <a href="{{ path('orders') }}">Orders</a>
+            </div>
 		</nav>
 
         {% block body %}{% endblock %}
