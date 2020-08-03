@@ -10,6 +10,9 @@ use App\Entity\Goods;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 
+use App\Form\CategoriesType;
+use Symfony\Component\HttpFoundation\Request;
+
 class CategoriesController extends AbstractController
 {
     /**
@@ -25,8 +28,7 @@ class CategoriesController extends AbstractController
         ]);
     }
 
-
-     /**
+    /**
      * @Route("/categories/{id}", name="categories_item")
      */
     public function show($id)
@@ -35,18 +37,11 @@ class CategoriesController extends AbstractController
             ->getRepository(Categories::class)
             ->find($id);
 
-        // $repository = $this->getDoctrine()->getRepository(Goods::class);
-        // $goods = $repository->findAll();
-
         if (!$categories) {
             throw $this->createNotFoundException(
                 'No categories found for id '.$id
             );
         }
-
-        // $goods = $this->getDoctrine()
-        //     ->getRepository(Goods::class)
-        //     ->findBy($category);
 
         $repository = $this->getDoctrine()->getRepository(Goods::class);
         $goods = $repository->findBy(['category' => $id]);
@@ -54,6 +49,29 @@ class CategoriesController extends AbstractController
         return $this->render('categories/show.html.twig', [
             'categories' => $categories,
             'goods' => $goods
+        ]);
+    }
+
+    /**
+     * @Route("/categories_new", name="new_categories")
+     */
+    public function new(Request $request)
+    {
+        $categories = new Categories();
+
+        $form = $this->createForm(CategoriesType::class, $categories);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($categories);
+            $entityManager->flush();
+            return new Response('New category successfully saved!');
+        }
+
+        return $this->render('categories/new.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 

@@ -10,6 +10,9 @@ use App\Entity\Categories;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 
+use App\Form\GoodsType;
+use Symfony\Component\HttpFoundation\Request;
+
 class GoodsController extends AbstractController
 {
     /**
@@ -17,7 +20,6 @@ class GoodsController extends AbstractController
      */
     public function index()
     {
-
         $repository = $this->getDoctrine()->getRepository(Goods::class);
         $goods = $repository->findAll();
 
@@ -27,7 +29,6 @@ class GoodsController extends AbstractController
         return $this->render('goods/index.html.twig', [
             'goods' => $goods
         ]);
-		
     }
 
     /**
@@ -45,9 +46,31 @@ class GoodsController extends AbstractController
             );
         }
 
-        // return new Response('Check out this great product: '.$goods->getTitle());
-         return $this->render('goods/show.html.twig', [
+        return $this->render('goods/show.html.twig', [
             'goods' => $goods
+        ]);
+    }
+
+    /**
+     * @Route("/goods_new", name="goods_new")
+     */
+    public function new(Request $request)
+    {
+        $goods = new Goods();
+
+        $form = $this->createForm(GoodsType::class, $goods);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            // $entityManager = $this->getDoctrine()->getManager();
+            // $entityManager->persist($goods);
+            // $entityManager->flush();
+            return new Response('New goods successfully saved!');
+        }
+        
+        return $this->render('goods/new.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 
